@@ -22,6 +22,8 @@ urlpatterns = [
     
     # path('create-bucket/', views.create_bucket, name='create-bucket'),
     
+
+    
     path('get/<int:userid>/<int:bucketid>/', views.get_user_data, name='simple_get')
     
     

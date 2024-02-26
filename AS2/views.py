@@ -133,7 +133,15 @@ def dashboard(request):
     for credential in user_credentials:
         print(credential.username)
 
-    return render(request, 'crm/dashboard.html',{'user_credentials': user_credentials})
+    buckets = Bucket.objects.all()  # Fetch all Bucket objects
+
+    return render(request, 'crm/dashboard.html', {
+        'user_credentials': user_credentials,
+        'buckets': buckets,  # Pass buckets to the template
+    })
+
+
+
 def bucket_view(request):
     return render(request, 'crm/bucket.html')
 
@@ -254,3 +262,9 @@ def create_bucket(request):
         form = BucketForm()
 
     return render(request, 'create_bucket.html', {'form': form})
+
+
+
+
+
+

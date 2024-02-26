@@ -133,7 +133,7 @@
 <body>
 <div class="container">
     <div class="box">
-        <h2>Account Snapshot <button class="edit-button">Edit <i class="fas fa-pencil-alt"></i></button></h2>
+        <h2>Account Snapshot </h2>
         <hr>
         
             {% for credential in user_credentials %}
@@ -163,14 +163,15 @@
             <th>bucketID</th>
         </tr>
         {% for bucket in buckets %}
-            <tr>
-                <td>{{ bucket.name }}</td>
-                <td>{{ bucket.creation_date }}</td>
-                <td>{{ bucket.last_updated }}</td>
-                <td>{{ bucket.access }}</td>
-                <td>{{ bucket.data }}</td>
-            </tr>
-            {% endfor %}
+        <tr>
+            <td>{{ bucket.bucket_name }}</td>
+            <td>{{ bucket.creation_date }}</td>
+            <td>{{ bucket.updation_date }}</td>
+            <td>{{ bucket.bucket_type }}</td>
+            <td>{{ bucket.bucket_id }}</td>
+            <!-- Add more columns if needed -->
+        </tr>
+        {% endfor %}
 
     </table>
 </div>
