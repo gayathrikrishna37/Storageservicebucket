@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from . forms import CreateUserForm, LoginForm
+from . forms import CreateUserForm, LoginForm, BucketForm
 
 from django.contrib.auth.decorators import login_required
 
@@ -8,16 +8,54 @@ from django.http import JsonResponse
 
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import UserCredentials,UserData
+from .models import UserCredentials,UserData,Bucket
 
 import json
 
+import random
 
+from datetime import datetime
 
 
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
+
+
+
+
+
+
+
+def get_unique_code(length=6, digits=True):
+
+    start_range = 10 ** (length - 1)
+    end_range = 10 ** length - 1
+    existing_codes = set()  # Use a set for faster lookup
+    
+    while True:
+        unique_code = random.randint(start_range, end_range)
+        if unique_code not in existing_codes:
+            existing_codes.add(unique_code)
+            return unique_code
+
+# Example usage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def homepage(request):
@@ -91,12 +129,13 @@ def user_logout(request):
 
 @login_required(login_url="my-login")
 def dashboard(request):
+    user_credentials = UserCredentials.objects.all()
+    for credential in user_credentials:
+        print(credential.username)
 
-    return render(request, 'crm/dashboard.html')
+    return render(request, 'crm/dashboard.html',{'user_credentials': user_credentials})
 def bucket_view(request):
     return render(request, 'crm/bucket.html')
-
-
 
 
 
@@ -119,45 +158,15 @@ def user_Credentials(request):
         
 
 
-
-
-
-
-@csrf_exempt
-def post_user_data(request, userid, bucketid):
-    print('hello')
-    credentials = []
-    user_credentials = UserCredentials.objects.all()
-    for credential in user_credentials:
-        credentials.append(credential.userid)
-        credentials.append(credential.username)
-        credentials.append(credential.email)
-        
-    print(credentials)
-    # if request.method == 'POST':
-    #     try:
-    #         post_data = json.loads(request.body)
-    #         userid = userid
-    #         bucketid = bucketid
-            
-    #         if userid is None or bucketid is None or post_data is None:
-    #             return JsonResponse({'error': 'userid, bucketid, and data fields are required'}, status=400)
-    #         if userid == credentials[0]:
-    #             print('done')
-    #             UserData.objects.create(userid=userid, bucketid=bucketid, data=post_data)
-    #             return JsonResponse({'success': 'Data posted successfully'})
-    #     except json.JSONDecodeError:
-    #         return JsonResponse({'error': 'Invalid JSON format'}, status=400)
-    # else:
-    #     return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
-
-# Return a default JsonResponse if none of the conditions were met
-    return JsonResponse({'error': 'Something went wrong'}, status=400)
-
-
 @csrf_exempt
 def simple_post(request,userid,bucketid):
     if request.method == 'POST':
+        credentials = []
+        user_credentials = UserCredentials.objects.all()
+        for credential in user_credentials:
+            credentials.append(credential.userid)
+            credentials.append(credential.username)
+            credentials.append(credential.email)
         # Extract JSON data from the request body
         try:
             userid = userid
@@ -166,10 +175,20 @@ def simple_post(request,userid,bucketid):
             print(data,userid,bucketid)
             
             
-            if userid is None or bucketid is None or data is None:
-                return JsonResponse({'success': 'ok daaaa'}, status=200)
+            if userid != None or bucketid != None or data != None:
                 
-         
+                print("hello")
+            else:
+                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+                
+                
+            print(userid)
+            print(credentials[0])
+            if userid == credentials[0]:
+                UserData.objects.create(userid=userid, bucketid=bucketid, data=data)
+                return JsonResponse({'success': 'Data posted successfully'})
+            else:
+                return JsonResponse({'error' : 'invalid userid'}, status=400)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON format'}, status=400)
         
@@ -179,7 +198,59 @@ def simple_post(request,userid,bucketid):
         # If request method is not POST, return a JSON response indicating an error
         return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
 
-def process_data(data):
-    # Here, you can perform any processing on the received data
-    # For example, you might save it to the database, perform calculations, etc.
-    return data
+
+
+
+
+
+def get_user_data(request, userid, bucketid):
+    try:
+        # Retrieve the data based on user id and bucket id
+        user_data = UserData.objects.filter(userid=userid, bucketid=bucketid).values()
+        
+        # Check if data exists
+        if user_data.exists():
+            # Return the data as JSON response
+            return JsonResponse({'data': list(user_data)}, status=200)
+        else:
+            # If data doesn't exist, return a JSON response with an appropriate message
+            return JsonResponse({'message': 'Data not found'}, status=404)
+    except Exception as e:
+        # Handle any exceptions and return an error response
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+# Import necessary modules
+import uuid
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Bucket
+
+def create_bucket(request):
+    current_datetime = datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+    if request.method == 'POST':
+        form = BucketForm(request.POST)
+        if form.is_valid():
+            bucket_name = form.cleaned_data['bucketName']
+            description = form.cleaned_data['description']
+            bucket_type = form.cleaned_data['bucketType']
+
+            # Save the data to the database
+            new_bucket = Bucket.objects.create(
+                bucket_name=bucket_name,
+                description=description,
+                bucket_type=bucket_type,
+                creation_date = formatted_datetime,
+                updation_date = formatted_datetime,
+                bucket_id= get_unique_code()             # You can adjust this as needed
+            )
+
+            # Optionally, you can redirect to a success page or show a modal
+            return redirect(dashboard)
+
+    else:
+        form = BucketForm()
+
+    return render(request, 'create_bucket.html', {'form': form})

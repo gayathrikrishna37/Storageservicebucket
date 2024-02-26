@@ -135,7 +135,15 @@
     <div class="box">
         <h2>Account Snapshot <button class="edit-button">Edit <i class="fas fa-pencil-alt"></i></button></h2>
         <hr>
-        <p>AccountID: xyz <span style="margin-right: 200px;"></span> Username: xyz <span style="margin-right: 200px;"></span> Email address: xyz@gmail.com <span style="margin-right: 200px;"></span> Password: xyz</p>
+        
+            {% for credential in user_credentials %}
+            <p>
+                <strong>User ID:</strong> {{ credential.userid }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>Username:</strong> {{ credential.username }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>Email:</strong> {{ credential.email }}
+            </p>
+            {% endfor %}
+        
 
     </div>
 </div>
@@ -152,7 +160,7 @@
             <th>Creation Date</th>
             <th>Last Updated</th>
             <th>Access</th>
-            <th>Data</th>
+            <th>bucketID</th>
         </tr>
         {% for bucket in buckets %}
             <tr>

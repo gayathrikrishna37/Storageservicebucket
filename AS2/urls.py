@@ -18,9 +18,13 @@ urlpatterns = [
     
     path('post/<int:userid>/<int:bucketid>/', views.simple_post, name='simple_post'),
     
+    path('create-bucket/', views.create_bucket, name='create_bucket'),
+    
     # path('create-bucket/', views.create_bucket, name='create-bucket'),
     
-    path('api/user/<int:userid>/bucket/<int:bucketid>/', views.post_user_data, name='post_user_data'),
+    path('get/<int:userid>/<int:bucketid>/', views.get_user_data, name='simple_get')
+    
+    
     
 ]
 

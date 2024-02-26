@@ -19,6 +19,12 @@ class CreateUserForm(UserCreationForm):
 
 # - Authenticate a user (Model Form)l
 
+class BucketForm(forms.Form):
+    bucketName = forms.CharField(max_length=100)
+    description = forms.CharField(widget=forms.Textarea)
+    bucketType = forms.ChoiceField(choices=[('auth', 'Authentication bucket'), ('storage', 'Storage bucket')])
+
+
 class LoginForm(AuthenticationForm):
 
     username = forms.CharField(widget=TextInput())

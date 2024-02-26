@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Include Font Awesome CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: none;
+            margin-bottom: 10px;
+            margin-left: 30px;
+            font-family: Verdana;
+        }
+
+        .container {
+            width: calc(100% - 100px); /* Adjust the width based on the left and right margins */
+            margin: 50px 50px 20px; /* Adjust top, left, and bottom margins */
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            overflow-x: auto; /* Add horizontal scrolling if needed */
+            position: fixed;
+            top: 50px; /* Adjust top margin if needed */
+            margin-left: 30px; /* Left margin */
+            margin-right: 50px; /* Right margin */
+            box-shadow: 0 4px 2px rgba(32, 32, 32, 0.5);
+        }
+
+        .container h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 12px;
+            font-family: Verdana;
+        }
+
+        .input-container {
+            position: relative;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 200%;
+            padding: 10px 30px 10px 40px; /* Adjust padding for the search icon */
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 10px; /* Adjust left position */
+            transform: translateY(-50%);
+            color: #868686;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th{
+            font-family: Verdana; 
+        }
+        td {
+            font-family:Poppins, Tahoma, sans-serif;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+            /* Prevent text wrapping */
+        }
+        th.headings {
+            border-right: 1px solid #ddd;
+            margin-bottom: 5px; /* Adjust the margin as needed */
+        }
+
+        .select-btn, .select-all-btn {
+            width: 20px;
+            height: 20px;
+            background-color: #ffffff;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+            position: relative;
+            border: 1px solid #464646;
+        }
+        .select-btn::after, .select-all-btn::after {
+            content: '\2714'; /* Unicode character for checkmark */
+            font-size: 16px;
+            color: transparent;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .selected .select-btn::after, .selected .select-all-btn::after {
+            color: #007bff; /* Change color when selected */
+        }
+        .name-link {
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-left: 30px;
+            font-family: Verdana;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb a:not(:last-child)::after {
+            margin: 0 5px;
+            color: #666;
+        }
+
+        .breadcrumb span {
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="breadcrumb">
+    <a href="#">AS2</a> >
+    <a href="#">Buckets</a> >
+    <span>rescuenet</span>
+</div>
+
+<h1>rescuenet</h1>
+
+<div class="container">
+    <h2>Objects</h2>
+    <div class="input-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="Find objects by prefix">
+    </div>
+    <p>Objects are the fundamental entities stored in AS2. You can use <a href="#"> AS2 inventory<i class="fas fa-pencil-alt"></i></a> to get a list of all objects in your bucket. For others to access your objects, you'll need to explicitly grant them permission. <a href="#">Learn More<i class="fas fa-pencil-alt"></i></a></p>
+    
+    <table>
+    
+        <thead>
+        <tr>
+            <td class="headings"><button class="select-all-btn"></button></td>
+            <th class="headings">Bucket ID</th>
+            <th class="headings">Name</th>
+            <th class="headings">Type</th>
+            <th class="headings">Last Modified</th>
+            <th class="headings">Size</th>
+            <th>Storage Class</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Add your table rows here -->
+        <tr>
+            <td><button class="select-btn"></button></td>
+            <td>123</td>
+            <td><a href="#" class="name-link">bd13f3167482c9d8cbcf08a15b6ac049</a></td>
+            <td>File</td>
+            <td>October 31, 2022 22:36:09 (UTC+05:30)</td>
+            <td>27.4 MB</td>
+            <td>Standard</td>
+        </tr>
+        <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Add event listener to toggle selected class on button click
+    document.querySelectorAll('.select-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            this.parentNode.parentNode.classList.toggle('selected');
+        });
+    });
+
+    // Add event listener to select all rows and buttons on button click
+    document.querySelector('.select-all-btn').addEventListener('click', function() {
+        const selected = this.classList.toggle('selected');
+        document.querySelectorAll('.select-btn').forEach(function(btn) {
+            btn.parentNode.parentNode.classList.toggle('selected', selected);
+        });
+    });
+</script>
+
+</body>
+</html>
