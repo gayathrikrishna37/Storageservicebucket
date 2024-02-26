@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bucket Management</title>
+    <link rel="stylesheet" type="text/css" href="gui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Verdana;
+        }
+
+        .container {
+            display: block;
+        }
+
+        .box {
+            font-family: Verdana;
+            font-weight: normal;
+            position: relative;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .box h2 {
+            margin-top: 0;
+        }
+
+        .edit-button {
+            font-family: Verdana;
+            position: absolute;
+            top: 0;
+            right: 50px;
+            margin-top: 15px;
+            background-color: white;
+            border: 1px solid black;
+            color: black;
+            padding: 6px 12px;
+            border-radius: 1px;
+            font-size: 14px;
+        }
+
+        .edit-button:hover {
+            color: red;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .create-bucket-button {
+            font-family: Verdana;
+            position: absolute;
+            top: 0;
+            right: 20px;
+            margin-top: 25px;
+            background-color: #FFAC0C;
+            border: 1px solid rgb(0, 0, 0);
+            color: black;
+            padding: 6px 12px;
+            border-radius: 1px;
+            font-size: 14px;
+        }
+
+        .create-bucket-button:hover {
+            background-color: white;
+            color: red;
+            cursor: pointer;
+        }
+
+        input[type=text] {
+            padding: 10px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #b7b5b5;
+            border-radius: 1px;
+            font-size: 14px;
+            width: 40%;
+        }
+
+        .search-container {
+            position: relative;
+            display: 70px;
+        }
+
+        .search-input {
+            padding-left: 30px;
+            font-family: Verdana;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bcbaba;
+        }
+
+        .search-input::placeholder {
+            color: #999999;
+            padding-left: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #F2F2F2;
+            padding: 8px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 550;
+        }
+
+        th {
+            background-color: white;
+            color: rgb(83, 82, 82);
+
+        }
+
+        hr {
+            border: #ddd;
+            border-top: 1px solid #DFDFDF;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="box">
+        <h2>Account Snapshot <button class="edit-button">Edit <i class="fas fa-pencil-alt"></i></button></h2>
+        <hr>
+        <p>AccountID: xyz <span style="margin-right: 200px;"></span> Username: xyz <span style="margin-right: 200px;"></span> Email address: xyz@gmail.com <span style="margin-right: 200px;"></span> Password: xyz</p>
+
+    </div>
+</div>
+
+<div class="box">
+    <h3>General purpose buckets <button class="create-bucket-button"><a href="{% url 'bucket-page'%}">Create Bucket</a></button></h3>
+    <div class="search-container">
+        <input type="text" placeholder="Search by bucket name" class="search-input">
+        <i class="fa fa-search search-icon"></i>
+    </div>
+    <table id="bucketsTable">
+        <tr>
+            <th>Name</th>
+            <th>Creation Date</th>
+            <th>Last Updated</th>
+            <th>Access</th>
+            <th>Data</th>
+        </tr>
+        {% for bucket in buckets %}
+            <tr>
+                <td>{{ bucket.name }}</td>
+                <td>{{ bucket.creation_date }}</td>
+                <td>{{ bucket.last_updated }}</td>
+                <td>{{ bucket.access }}</td>
+                <td>{{ bucket.data }}</td>
+            </tr>
+            {% endfor %}
+
+    </table>
+</div>
+<a href="{% url 'user-logout' %}"> Logout here </a>
+
+</div>
+
+<script src="gui.js"></script>
+</body>
+</html>

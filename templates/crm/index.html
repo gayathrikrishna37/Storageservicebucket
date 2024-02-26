@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AS2 Innovate</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #d1dfee;
+      color: white;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .header ul {
+      list-style: none;
+      display: flex;
+    }
+
+    .header ul li {
+      margin: 0 10px;
+    }
+
+    .header ul li a {
+      text-decoration: none;
+      color: rgb(23, 20, 20);
+    }
+
+    .header button {
+      background-color: #ff6600;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 1400px; /* Adjust the maximum width as needed */
+      margin: 0 auto; /* Center the main container horizontally */
+      height: 70vh;
+      background-color: #003366;
+      border-radius: 20px; /* Adjust the border radius as needed */
+      padding: 20px; /* Add padding if necessary */
+    }
+
+    .main h1 {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .main p {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .main a {
+      text-decoration: none;
+      color: white;
+      border: 2px solid white;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-weight: bold;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 20vh;
+      background-color: #b8c9e1;
+    }
+
+    .footer h2 {
+      color: rgb(26, 24, 24);
+      font-size: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <ul>
+      <li><a href="#">Products</a></li>
+      <li><a href="#">Solutions</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Documentation</a></li>
+      <li><a href="#">Explore More</a></li>
+    </ul>
+    <button><a href="{% url 'my-login' %}" >login</a>
+  </div>
+  <div class="main">
+    <h1>AS2 INNOVATE</h1>
+    <p>ready to explore more?</p>
+    <a href="#">Join us Now</a>
+  </div>
+  <div class="footer">
+    <h2>Re Imagine the future of Storage solutions with us</h2>
+  </div>
+</body>
+</html>
